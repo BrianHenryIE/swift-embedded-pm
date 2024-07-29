@@ -117,10 +117,10 @@ add_custom_command(
 	OUTPUT ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o
 	COMMAND
 		# Extract first .o which defines the 'app_main' symbol
-		ar x ${SWIFT_PRODUCT_ARCHIVE} $$\( nm --defined-only -A ${SWIFT_PRODUCT_ARCHIVE} | grep -m 1 ' T app_main' | cut -d: -f2 \) --output ${SWIFT_PRODUCT_RELEASE}
+		ar x ${SWIFT_PRODUCT_ARCHIVE} $$\( nm -U -A ${SWIFT_PRODUCT_ARCHIVE} | grep -m 1 ' T app_main' | cut -d: -f2 \) --output ${SWIFT_PRODUCT_RELEASE}
 		# Rename it to a predicatble file
-		&& \( mv -f -T ${SWIFT_PRODUCT_RELEASE}/$$\( nm --defined-only -A ${SWIFT_PRODUCT_ARCHIVE} | grep -m 1 ' T app_main' | cut -d: -f2 \) ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o 2>/dev/null || \(
-			rm -rf ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o && mv -f ${SWIFT_PRODUCT_RELEASE}/$$\( nm --defined-only -A ${SWIFT_PRODUCT_ARCHIVE} | grep -m 1 ' T app_main' | cut -d: -f2 \) ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o \)
+		&& \( mv -f -T ${SWIFT_PRODUCT_RELEASE}/$$\( nm -U -A ${SWIFT_PRODUCT_ARCHIVE} | grep -m 1 ' T app_main' | cut -d: -f2 \) ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o 2>/dev/null || \(
+			rm -rf ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o && mv -f ${SWIFT_PRODUCT_RELEASE}/$$\( nm -U -A ${SWIFT_PRODUCT_ARCHIVE} | grep -m 1 ' T app_main' | cut -d: -f2 \) ${SWIFT_PRODUCT_RELEASE}/_main_swiftcode.o \)
 		\)
 	DEPENDS 
 		swift-archive
